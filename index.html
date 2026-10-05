@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ちえのテスト|小学校受験 力だめし</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E8F1F7; --sheet:#FFFFFF; --grid:#DFEAF2; --ink:#22324A; --sub:#566679; --line:#C6D5E1;
+  --c-num:#E0761A; --c-shape:#2A76C6; --c-mem:#8656CC; --c-logic:#26915F; --c-life:#D9404F; --c-word:#9A7300;
+  --ok:#26915F; --ng:#D9404F;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111A23; --sheet:#1A2632; --grid:#213140; --ink:#E7EDF4; --sub:#9DAFC1; --line:#33475A;
+    --c-num:#F08E3A; --c-shape:#5A9BE0; --c-mem:#A47FE0; --c-logic:#43B57E; --c-life:#EC6170; --c-word:#E0B52A;
+    --ok:#43B57E; --ng:#EC6170;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111A23; --sheet:#1A2632; --grid:#213140; --ink:#E7EDF4; --sub:#9DAFC1; --line:#33475A;
+  --c-num:#F08E3A; --c-shape:#5A9BE0; --c-mem:#A47FE0; --c-logic:#43B57E; --c-life:#EC6170; --c-word:#E0B52A;
+  --ok:#43B57E; --ng:#EC6170;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  font-weight:500;line-height:1.7;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c-shape);outline-offset:3px}
+#app{max-width:780px;margin:0 auto;padding:16px 16px 48px}
+h2{font-size:1.15rem;font-weight:900;margin:2.2rem 0 .8rem}
+img,svg{max-width:100%}
+
+/* ---- home ---- */
+.hero{padding:1.6rem 0 .6rem}
+.masu{display:flex;flex-wrap:wrap;gap:.18em;margin:0;font-size:clamp(34px,10.5vw,66px);font-weight:900;line-height:1}
+.masu span{display:inline-flex;align-items:center;justify-content:center;width:1.25em;height:1.25em;
+  background:var(--sheet);border:.07em solid var(--cc);border-radius:.14em;color:var(--ink)}
+.masu span:nth-child(odd){transform:rotate(-3deg)}
+.masu span:nth-child(even){transform:rotate(2deg) translateY(.04em)}
+.lead{max-width:34em;margin:1.2rem 0 0;color:var(--sub);font-size:1rem}
+
+.panel{background:var(--sheet);border:2px solid var(--line);border-radius:20px;padding:18px;margin-top:1.4rem;display:grid;gap:14px}
+.setting{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.slabel{font-weight:700}
+.seg{display:inline-flex;background:var(--bg);border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;padding:8px 18px;border-radius:999px;font-weight:700}
+.seg button[aria-checked="true"]{background:var(--ink);color:var(--sheet)}
+.switch{display:inline-flex;align-items:center;gap:10px;border:0;background:transparent;font-weight:700;padding:4px}
+.switch i{width:50px;height:28px;border-radius:999px;background:var(--line);position:relative;transition:background .2s}
+.switch i::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--sheet);transition:transform .2s}
+.switch[aria-checked="true"] i{background:var(--c-logic)}
+.switch[aria-checked="true"] i::after{transform:translateX(22px)}
+
+.primary{display:flex;flex-direction:column;align-items:center;width:100%;border:0;border-radius:16px;
+  background:var(--ink);color:var(--sheet);padding:18px;font-size:1.4rem;font-weight:900;line-height:1.3}
+.primary small{font-size:.85rem;font-weight:500;opacity:.8;margin-top:4px}
+.primary.small{display:inline-flex;width:auto;font-size:1.1rem;padding:12px 24px}
+.ghost{border:2px solid var(--line);background:var(--sheet);border-radius:14px;padding:10px 18px;font-weight:700}
+
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (min-width:560px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;column-gap:10px;align-items:center;text-align:left;
+  background:var(--sheet);border:2px solid var(--line);border-left:12px solid var(--cc);border-radius:14px;padding:12px 12px}
+.tile .ti{grid-row:1/3;font-size:30px}
+.tile b{font-size:1.2rem;font-weight:900}
+.tile small{color:var(--sub);font-size:.8rem;line-height:1.3}
+
+.hist{width:100%;border-collapse:collapse;background:var(--sheet);border-radius:14px;overflow:hidden;font-size:.95rem}
+.histwrap{overflow-x:auto}
+.hist th,.hist td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+.hist th{color:var(--sub);font-weight:700;font-size:.85rem}
+.note{color:var(--sub);font-size:.95rem}
+.note ul{padding-left:1.2em;margin:0;max-width:40em}
+.note li{margin:.35em 0}
+.note h2{color:var(--ink)}
+
+/* ---- quiz ---- */
+.qbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:10px;background:var(--bg);padding:8px 0 12px}
+.chip{background:var(--cc);color:#fff;border-radius:999px;padding:3px 12px;font-weight:700;white-space:nowrap;font-size:.95rem}
+.prog{flex:1;height:10px;background:var(--line);border-radius:999px;overflow:hidden;min-width:40px}
+.prog i{display:block;height:100%;background:var(--ink);border-radius:999px;transition:width .3s}
+.count{font-weight:700;font-size:.9rem;white-space:nowrap}
+.icon{width:44px;height:44px;border-radius:50%;border:2px solid var(--line);background:var(--sheet);font-size:18px;flex:none;display:inline-flex;align-items:center;justify-content:center}
+.icon.armed{width:auto;padding:0 12px;border-color:var(--ng);color:var(--ng);font-size:.9rem;font-weight:700;border-radius:999px}
+
+.sheet{background-color:var(--sheet);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;border:2px solid var(--line);border-top:10px solid var(--cc);border-radius:20px;padding:20px 18px 24px}
+.prompt{font-size:clamp(1.25rem,4.6vw,1.6rem);font-weight:700;line-height:1.6;margin:0 0 16px}
+.stim{margin:0 0 20px}
+.hint{color:var(--sub);font-size:.9rem}
+
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media (min-width:600px){.choices{grid-template-columns:repeat(4,1fr)}}
+.choices.two{grid-template-columns:repeat(2,1fr)}
+.choices.three{grid-template-columns:repeat(3,1fr)}
+.choices.grid9{grid-template-columns:repeat(3,1fr);max-width:320px;margin:0 auto}
+.choice{min-height:116px;border:3px solid var(--line);border-radius:18px;background:var(--sheet);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px;line-height:1.1;transition:transform .1s}
+.choice:active{transform:scale(.97)}
+.choices.grid9 .choice{aspect-ratio:1;min-height:0}
+.choice.picked{border-color:var(--ink);box-shadow:inset 0 0 0 3px var(--ink)}
+.choice.is-correct{border-color:var(--ok);box-shadow:inset 0 0 0 3px var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--sheet))}
+.choice.is-wrong{border-color:var(--ng);box-shadow:inset 0 0 0 3px var(--ng)}
+.choice:disabled{cursor:default}
+.lab{display:none;font-size:.85rem;margin-top:8px;color:var(--sub);font-weight:700}
+.revealed .lab{display:block}
+.emo{font-size:52px;line-height:1.1}
+.num{font-size:46px;font-weight:900}
+
+.scatter{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;max-width:520px;margin:0 auto}
+.scatter span{font-size:40px;line-height:1.2}
+.scatter span:nth-child(3n){transform:translateY(8px)}
+.scatter span:nth-child(4n){transform:translateY(-4px)}
+.scatter.tight{gap:2px 6px}
+.scatter.tight span{font-size:28px;transform:none}
+.choice .scatter.tight span{font-size:24px}
+.eq{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap}
+.eq b{font-size:34px}
+.kids{text-align:center;font-size:44px;margin-top:10px;letter-spacing:.2em}
+
+.model{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap}
+.model > span{writing-mode:vertical-rl;font-weight:900;color:var(--sub);letter-spacing:.2em}
+.arrow{font-size:46px;color:var(--c-shape)}
+.mirror{display:flex;flex-direction:column;align-items:center;gap:4px}
+.mirror i{display:block;width:12px;height:124px;border-radius:4px;background:linear-gradient(90deg,#8FA6B9,#EAF1F7,#8FA6B9)}
+.mirror small{font-size:.8rem;color:var(--sub);font-weight:700}
+
+.memgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:360px;margin:0 auto}
+.memgrid span{font-size:54px;text-align:center;background:var(--sheet);border:2px solid var(--line);border-radius:14px;padding:8px 0}
+.g9{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:300px;margin:0 auto}
+.g9 span{aspect-ratio:1;border:2px solid var(--line);border-radius:12px;background:var(--sheet);display:flex;align-items:center;justify-content:center;font-size:44px}
+.g9.mini{max-width:120px;gap:3px}
+.g9.mini span{font-size:20px;border-radius:5px;border-width:1px}
+.timer{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:18px}
+.timer i{display:block;height:100%;background:var(--c-mem);animation:shrink var(--sec) linear forwards}
+@keyframes shrink{from{width:100%}to{width:0}}
+.story{background:var(--sheet);border:2px solid var(--line);border-radius:16px;padding:16px 18px}
+.story p{font-size:1.2rem;line-height:2;margin:.2rem 0 1rem;max-width:32em}
+.hero-emo{font-size:48px}
+
+.series{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.series span{width:54px;height:54px;display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--sheet);border:2px solid var(--line);border-radius:12px}
+.q{border:3px dashed var(--ink)!important;font-weight:900;font-size:28px!important}
+.seesaws{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.bb{display:grid;gap:14px;justify-content:center}
+.bb > div{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.bb b{font-size:24px;color:var(--sub)}
+.dots{font-size:26px;letter-spacing:2px;color:var(--c-logic);min-width:3em}
+.bb .box{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border:3px solid var(--ink);border-radius:10px;background:var(--sheet);font-size:28px}
+.bb .q{width:58px;height:58px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:var(--sheet)}
+.shiri{display:flex;align-items:center;justify-content:center;gap:16px}
+.shiri figure{margin:0;text-align:center}
+.shiri figcaption{font-size:.85rem;color:var(--sub);font-weight:700}
+.shiri b{font-size:34px;color:var(--sub)}
+.shiri .q{width:76px;height:76px;display:flex;align-items:center;justify-content:center;border-radius:14px}
+
+.fb{margin-top:18px;text-align:center}
+.fb p{margin:.3rem 0}
+.fb .ok{color:var(--ok);font-size:1.4rem;font-weight:900}
+.fb .ng{color:var(--ng);font-size:1.25rem;font-weight:900}
+.fb .primary{margin-top:10px}
+
+/* ---- result ---- */
+.rhead{display:flex;align-items:center;gap:20px;padding:1.4rem 0 .4rem;flex-wrap:wrap}
+.gbadge{width:112px;height:112px;border-radius:50%;border:7px solid var(--gc);color:var(--gc);background:var(--sheet);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:58px;font-weight:900;line-height:1;flex:none}
+.gbadge small{font-size:.8rem;color:var(--sub);font-weight:700;margin-top:4px}
+.kid{font-size:clamp(1.5rem,6vw,2rem);font-weight:900;margin:0;line-height:1.3}
+.score{margin:.3rem 0 0;font-weight:700}
+.prev{margin:.2rem 0 0;color:var(--sub);font-size:.95rem}
+.pmsg{background:var(--sheet);border:2px solid var(--line);border-radius:16px;padding:14px 16px;max-width:42em}
+.rgrid{display:grid;gap:16px;align-items:start}
+@media (min-width:700px){.rgrid{grid-template-columns:300px 1fr}}
+.radar{width:100%;max-width:320px;margin:0 auto;display:block}
+.crow{background:var(--sheet);border:2px solid var(--line);border-left:10px solid var(--cc);border-radius:14px;padding:12px 14px;margin-bottom:10px}
+.chead{display:flex;justify-content:space-between;font-weight:700}
+.bar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 8px}
+.bar i{display:block;height:100%;background:var(--cc)}
+.crow p{margin:0;font-size:.92rem;color:var(--sub)}
+.lv{display:inline-block;font-weight:900;margin-right:.5em}
+.lv.good{color:var(--ok)}.lv.mid{color:var(--c-num)}.lv.low{color:var(--ng)}
+.summary{font-weight:700}
+.review{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.review li{background:var(--sheet);border:2px solid var(--line);border-radius:14px;padding:12px 14px}
+.review .rp{margin:.4rem 0;font-weight:700}
+.review .stim{transform:scale(.8);transform-origin:top left;margin:0}
+.ans{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.ans > div{display:flex;flex-direction:column;align-items:center;gap:4px}
+.ans small{font-size:.8rem;color:var(--sub);font-weight:700}
+.ans .num{font-size:30px}.ans .emo{font-size:38px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:2rem}
+.disclaimer{font-size:.82rem;color:var(--sub);margin-top:1.6rem;max-width:44em}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+  .masu span{transform:none!important}
+}
+</style>
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+<script>
+(function(){
+"use strict";
+/* ---------- base data ---------- */
+const CATS={
+  num:{name:'かず',ability:'数量把握力',color:'var(--c-num)',icon:'🔢'},
+  shape:{name:'かたち',ability:'図形認識力',color:'var(--c-shape)',icon:'🔷'},
+  mem:{name:'きおく',ability:'記憶力',color:'var(--c-mem)',icon:'👀'},
+  logic:{name:'すいり',ability:'推理・思考力',color:'var(--c-logic)',icon:'⚖️'},
+  life:{name:'じょうしき',ability:'常識・生活知識',color:'var(--c-life)',icon:'🌸'},
+  word:{name:'ことば',ability:'言語力',color:'var(--c-word)',icon:'💬'}
+};
+const ORDER=['num','shape','mem','logic','life','word'];
+
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const pick=(a,n)=>shuffle(a).slice(0,n);
+const one=a=>a[Math.floor(Math.random()*a.length)];
+const base=c=>c.normalize('NFD')[0];
+const len=s=>[...s].length;
+
+const W=[['🍎','りんご'],['🦍','ごりら'],['🐱','ねこ'],['🐶','いぬ'],['🐰','うさぎ'],['🍌','ばなな'],['🚗','くるま'],['🐟','さかな'],['🦊','きつね'],['🐢','かめ'],['🍓','いちご'],['🦒','きりん'],['🍉','すいか'],['🦆','あひる'],['🐿️','りす'],['🦁','らいおん'],['🍅','とまと'],['🥕','にんじん'],['☂️','かさ'],['🐻','くま'],['🐭','ねずみ'],['🦀','かに'],['🐙','たこ'],['🌸','さくら'],['🍙','おにぎり'],['🐝','はち'],['🎲','さいころ'],['🐸','かえる'],['🍑','もも'],['🍞','ぱん'],['🍊','みかん'],['🍋','れもん'],['🐌','かたつむり'],['🌙','つき'],['⭐','ほし'],['🥚','たまご'],['🐄','うし'],['🐷','ぶた'],['🐒','さる'],['🦓','しまうま'],['🐳','くじら'],['📕','ほん'],['🚌','ばす'],['🍆','なす'],['🌰','くり'],['🍄','きのこ'],['✏️','えんぴつ'],['🐔','にわとり'],['🍈','めろん'],['🐧','ぺんぎん'],['🐍','へび'],['🍇','ぶどう'],['🎹','ぴあの'],['🐨','こあら'],['🌻','ひまわり'],['🍁','もみじ'],['🧤','てぶくろ'],['✂️','はさみ'],['🥢','はし'],['⛄','ゆきだるま'],['🎆','はなび'],['🐜','あり'],['🦑','いか'],['🐊','わに'],['🍡','だんご'],['🐘','ぞう']].map(([e,k])=>({e,k}));
+const WM=W.filter(w=>w.k!=='ぞう');
+const MEMPOOL=W.filter(w=>['🍎','🐱','🐶','🐰','🍌','🚗','🐟','🦊','🐢','🍓','🦒','🍉','☂️','🐻','🐙','🌸','🍙','🐸','⭐','🌙','🍇','✏️','🐘','🎹'].includes(w.e));
+const ITEMS=[{e:'🍎',n:'りんご'},{e:'🍓',n:'いちご'},{e:'🐟',n:'さかな'},{e:'⭐',n:'ほし'},{e:'🌸',n:'はな'},{e:'🍙',n:'おにぎり'},{e:'🐞',n:'てんとうむし'},{e:'🚗',n:'くるま'},{e:'🍬',n:'あめ'}];
+
+/* ---------- helpers ---------- */
+function numChoices(n){const s=new Set([n]);for(const c of shuffle([n-1,n+1,n+2,n-2,n+3,n-3])){if(s.size>=4)break;if(c>0)s.add(c);}
+  return shuffle([...s]).map(v=>({html:`<span class="num">${v}</span>`,value:String(v)}));}
+const emoRow=(arr,cls='')=>`<div class="scatter ${cls}">${arr.map(e=>`<span>${e}</span>`).join('')}</div>`;
+const wChoice=w=>({html:`<span class="emo">${w.e}</span>`,value:w.k,label:w.k});
+const pChoice=([e,k])=>({html:`<span class="emo">${e}</span>`,value:e,label:k});
+
+/* ---------- かず ---------- */
+function qCount(d){
+  const [a,b]=pick(ITEMS,2);const n=d?R(6,12):R(3,8);const m=d?R(3,6):0;
+  return {prompt:`${a.e} は いくつ ありますか。`,speak:`${a.n}は いくつ ありますか。`,
+    stim:emoRow(shuffle([...Array(n).fill(a.e),...Array(m).fill(b.e)])),choices:numChoices(n),answer:String(n)};
+}
+function qCompare(d){
+  const it=one(ITEMS);let a,b;
+  do{a=d?R(5,10):R(2,7);b=a+(Math.random()<.5?-1:1)*(d?R(1,2):R(2,3));}while(b<1||b>11);
+  const box=k=>emoRow(shuffle(Array(k).fill(it.e)),'tight');
+  return {prompt:`${it.e} が おおい ほうを えらびましょう。`,speak:`${it.n}が おおい ほうを えらびましょう。`,layout:'two',
+    choices:[{html:box(a),value:'L'},{html:box(b),value:'R'}],answer:a>b?'L':'R'};
+}
+function qAddSub(d){
+  const it=one([{e:'🍎',n:'りんご'},{e:'🍬',n:'あめ'},{e:'🍪',n:'くっきー'}]);
+  if(!d){const a=R(2,4),b=R(1,3);
+    const t=`おさらに ${it.e}が ${a}こ あります。おかあさんが ${b}こ くれました。ぜんぶで なんこに なりましたか。`;
+    return {prompt:t,speak:t.replace(it.e,it.n),stim:`<div class="eq">${emoRow(Array(a).fill(it.e),'tight')}<b>＋</b>${emoRow(Array(b).fill(it.e),'tight')}</div>`,
+      choices:numChoices(a+b),answer:String(a+b)};}
+  const b=R(2,3),c=R(1,2),a=R(6,10);
+  const t=`${it.e}が ${a}こ あります。あさ ${b}こ たべて、よるに ${c}こ たべました。のこりは なんこ ですか。`;
+  return {prompt:t,speak:t.replace(it.e,it.n),stim:emoRow(Array(a).fill(it.e),'tight'),choices:numChoices(a-b-c),answer:String(a-b-c)};
+}
+function qDivide(){
+  const p=R(2,3),k=R(2,4);const kids=['👧','👦','🧒'].slice(0,p);
+  const t=`🍬が ${p*k}こ あります。${p}にんで おなじ かずずつ わけると、ひとり なんこに なりますか。`;
+  return {prompt:t,speak:t.replace('🍬','あめ'),stim:`${emoRow(Array(p*k).fill('🍬'),'tight')}<div class="kids">${kids.join('')}</div>`,
+    choices:numChoices(k),answer:String(k)};
+}
+
+/* ---------- かたち ---------- */
+const FILL=['','var(--c-shape)','var(--c-num)'];
+const key=p=>p.join('');
+function pattern(s,fill,colors){const p=Array(s*s).fill(0);pick([...p.keys()],fill).forEach((i,k)=>p[i]=colors===2?(k%2)+1:1);return p;}
+const rot=(p,s)=>{const o=[];for(let r=0;r<s;r++)for(let c=0;c<s;c++)o.push(p[(s-1-c)*s+r]);return o;};
+const flipH=(p,s)=>{const o=[];for(let r=0;r<s;r++)for(let c=0;c<s;c++)o.push(p[r*s+(s-1-c)]);return o;};
+const flipV=(p,s)=>{const o=[];for(let r=0;r<s;r++)for(let c=0;c<s;c++)o.push(p[(s-1-r)*s+c]);return o;};
+function patSVG(p,s,px=96){const c=100/s;let o=`<svg class="pat" viewBox="-3 -3 106 106" width="${px}" height="${px}" aria-hidden="true">`;
+  p.forEach((v,i)=>{const x=(i%s)*c,y=Math.floor(i/s)*c;
+    o+=`<rect x="${x}" y="${y}" width="${c}" height="${c}" style="fill:${v?FILL[v]:'var(--sheet)'};stroke:var(--ink);stroke-opacity:.5" stroke-width="1.6"/>`;});
+  return o+'</svg>';}
+function moveOne(p){const q=p.slice();const f=one(q.map((v,i)=>v?i:-1).filter(i=>i>=0));const e=one(q.map((v,i)=>v?-1:i).filter(i=>i>=0));q[e]=q[f];q[f]=0;return q;}
+const model=(t,s,extra='')=>`<div class="model"><span>みほん</span>${patSVG(t,s,124)}${extra}</div>`;
+function qSame(d){
+  const s=d?4:3,t=pattern(s,d?6:4,d?2:1);const set=new Map([[key(t),t]]);let g=0;
+  while(set.size<4&&g++<300){const v=moveOne(t);set.set(key(v),v);}
+  return {prompt:'みほんと おなじ ものは どれですか。',speak:'みほんと おなじ ものは どれですか。',stim:model(t,s),
+    choices:shuffle([...set.values()]).map(p=>({html:patSVG(p,s),value:key(p)})),answer:key(t)};
+}
+function qRotate(){
+  const s=3;let t,opts;
+  do{t=pattern(s,4,2);const r1=rot(t,s),r2=rot(r1,s),r3=rot(r2,s);opts=[r1,r2,r3,flipH(t,s)];}
+  while(new Set(opts.map(key).concat([key(t)])).size<5);
+  return {prompt:'みほんを みぎに 1かい まわす(↻ よこに たおす)と、どう なりますか。',speak:'みほんを みぎに いっかい まわすと、どう なりますか。',
+    stim:model(t,s,'<b class="arrow" aria-hidden="true">↻</b>'),choices:shuffle(opts).map(p=>({html:patSVG(p,s),value:key(p)})),answer:key(opts[0])};
+}
+function qMirror(d){
+  const s=d?4:3;let t,opts;
+  do{t=pattern(s,d?5:3,d?2:1);opts=[flipH(t,s),t,flipV(t,s),rot(rot(t,s),s)];}while(new Set(opts.map(key)).size<4);
+  return {prompt:'みほんを みぎの かがみに うつすと、どう みえますか。',speak:'みほんを かがみに うつすと、どう みえますか。',
+    stim:model(t,s,'<div class="mirror" aria-hidden="true"><i></i><small>かがみ</small></div>'),
+    choices:shuffle(opts).map(p=>({html:patSVG(p,s),value:key(p)})),answer:key(opts[0])};
+}
+
+/* ---------- きおく ---------- */
+function qPicMem(d){
+  const k=d?6:4;const pool=pick(MEMPOOL,k+3);const shown=pool.slice(0,k),other=pool.slice(k);const absent=Math.random()<.5;
+  let opts,ans;if(absent){ans=other[0];opts=[...pick(shown,3),ans];}else{ans=one(shown);opts=[ans,...other];}
+  const t=absent?'いま みた えに なかった ものは どれですか。':'いま みた えに あった ものは どれですか。';
+  return {prompt:t,speak:t,memo:{html:`<div class="memgrid">${shown.map(w=>`<span>${w.e}</span>`).join('')}</div>`,seconds:d?7:8,speak:'えを よく みて、おぼえましょう。'},
+    choices:shuffle(opts).map(wChoice),answer:ans.k};
+}
+function qPosMem(d){
+  const n=d?4:3;const items=pick(MEMPOOL,n);const pos=pick([0,1,2,3,4,5,6,7,8],n);const t=R(0,n-1);
+  const cells=Array(9).fill('');items.forEach((w,i)=>cells[pos[i]]=w.e);
+  const ac=Array(9).fill('');ac[pos[t]]=items[t].e;
+  const g=(arr,cls='')=>`<div class="g9 ${cls}">${arr.map(e=>`<span>${e}</span>`).join('')}</div>`;
+  return {prompt:`${items[t].e} は どこに ありましたか。その ばしょを えらびましょう。`,speak:`${items[t].k}は どこに ありましたか。`,
+    memo:{html:g(cells),seconds:d?6:7,speak:'どこに なにが あるか、よく おぼえましょう。'},layout:'grid9',target:items[t].e,
+    choices:Array.from({length:9},(_,i)=>({html:'',value:String(i)})),answer:String(pos[t]),answerHTML:g(ac,'mini')};
+}
+const FOODS=[{e:'🍎',n:'りんご'},{e:'🥕',n:'にんじん'},{e:'🍅',n:'とまと'},{e:'🍌',n:'ばなな'},{e:'🍆',n:'なす'},{e:'🍊',n:'みかん'},{e:'🍇',n:'ぶどう'}];
+const FRIENDS=[{e:'🐿️',n:'りす'},{e:'🐢',n:'かめ'},{e:'🦆',n:'あひる'},{e:'🐸',n:'かえる'}];
+function qStory(d){
+  const hero=one([{e:'🐰',n:'うさぎ'},{e:'🐻',n:'くま'},{e:'🐱',n:'ねこ'},{e:'🦊',n:'きつね'}]);
+  const buy=pick(FOODS,d?3:2),friend=one(FRIENDS),cnt=R(2,4);
+  const text=d
+    ?`あさ、${hero.n}さんは おかあさんに たのまれて、おつかいに いきました。やおやさんで ${buy[0].n}を ${cnt}こと、${buy[1].n}と ${buy[2].n}を かいました。かえりみちに ${friend.n}さんに あいました。「いっしょに あそぼう」と いわれたので、こうえんで ぶらんこに のって あそびました。`
+    :`${hero.n}さんは おかあさんに たのまれて、おつかいに いきました。やおやさんで ${buy[0].n}と ${buy[1].n}を かいました。かえりみちに ${friend.n}さんに あったので、いっしょに こうえんで すなあそびを しました。`;
+  const kind=one(d?['buy','friend','count']:['buy','friend']);
+  const fc=f=>({html:`<span class="emo">${f.e}</span>`,value:f.n,label:f.n});
+  let prompt,choices,answer;
+  if(kind==='buy'){const a=one(buy);prompt=`${hero.n}さんが やおやさんで かった ものは どれですか。`;
+    choices=shuffle([a,...pick(FOODS.filter(f=>!buy.includes(f)),3)]).map(fc);answer=a.n;}
+  else if(kind==='friend'){prompt='かえりみちに あったのは だれですか。';choices=shuffle(FRIENDS).map(fc);answer=friend.n;}
+  else{prompt=`${buy[0].n}は いくつ かいましたか。`;choices=numChoices(cnt);answer=String(cnt);}
+  return {prompt,speak:prompt,choices,answer,
+    memo:{manual:true,speak:text,html:`<div class="story"><span class="hero-emo" aria-hidden="true">${hero.e}</span><p>${text}</p><button class="ghost" data-act="replay">🔊 もういちど きく</button></div>`}};
+}
+
+/* ---------- すいり ---------- */
+const SER=['🍎','🍌','🍇','🍓','🍊','🍙','⭐','🌙'];
+function qSeries(d){
+  const u=pick(SER,d?3:2);const unit=d&&Math.random()<.5?[u[0],u[0],u[1]]:u;const L=unit.length;
+  const n=L*3+(d?1:0);const seq=Array.from({length:n},(_,i)=>unit[i%L]);const blank=R(L,n-1);
+  const opts=[...new Set(unit)];for(const e of shuffle(SER)){if(opts.length>=4)break;if(!opts.includes(e))opts.push(e);}
+  return {prompt:'きまりに あわせて、?に はいる ものを えらびましょう。',speak:'きまりに あわせて、はてなに はいる ものを えらびましょう。',
+    stim:`<div class="series">${seq.map((e,i)=>i===blank?'<span class="q">?</span>':`<span>${e}</span>`).join('')}</div>`,
+    choices:shuffle(opts).map(e=>({html:`<span class="emo">${e}</span>`,value:e})),answer:seq[blank]};
+}
+function seesaw(heavy,light,hl){
+  const l=hl?heavy:light,r=hl?light:heavy,yl=hl?92:58,yr=hl?58:92;
+  return `<svg viewBox="0 0 240 130" width="220" height="120" aria-hidden="true"><polygon points="120,76 100,122 140,122" style="fill:var(--c-logic)"/><line x1="24" y1="${yl}" x2="216" y2="${yr}" style="stroke:var(--ink)" stroke-width="7" stroke-linecap="round"/><text x="46" y="${yl-10}" font-size="34" text-anchor="middle">${l}</text><text x="194" y="${yr-10}" font-size="34" text-anchor="middle">${r}</text></svg>`;
+}
+function qSeesaw(d){
+  const [H,M,L]=pick(['🔴','🔺','⭐','🟦','🟢'],3);const ec=e=>({html:`<span class="emo">${e}</span>`,value:e});
+  if(!d)return {prompt:'シーソーを みて、おもい ほうを えらびましょう。',speak:'しーそーを みて、おもい ほうを えらびましょう。',
+    stim:`<div class="seesaws">${seesaw(H,M,Math.random()<.5)}</div>`,layout:'two',choices:shuffle([H,M]).map(ec),answer:H};
+  const hv=Math.random()<.5;const t=`シーソーを みて、いちばん ${hv?'おもい':'かるい'} ものを えらびましょう。`;
+  return {prompt:t,speak:t.replace('シーソー','しーそー'),stim:`<div class="seesaws">${seesaw(H,M,Math.random()<.5)}${seesaw(M,L,Math.random()<.5)}</div>`,
+    layout:'three',choices:shuffle([H,M,L]).map(ec),answer:hv?H:L};
+}
+function qBlackBox(){
+  const r=one([{s:'⭐',f:x=>x+1},{s:'🌙',f:x=>x+2},{s:'❤️',f:x=>x-1}]);const e=R(2,3);let x;do{x=R(2,4);}while(x===e);const ans=r.f(x);
+  const dots=n=>`<span class="dots">${'●'.repeat(n)}</span>`;
+  return {prompt:`${r.s}の はこを とおると、かずが かわります。うえの おてほんを みて、?に はいる かずを えらびましょう。`,
+    speak:'はこを とおると、かずが かわります。おてほんを みて、はてなに はいる かずを えらびましょう。',
+    stim:`<div class="bb"><div>${dots(e)}<b>→</b><span class="box">${r.s}</span><b>→</b>${dots(r.f(e))}</div><div>${dots(x)}<b>→</b><span class="box">${r.s}</span><b>→</b><span class="q">?</span></div></div>`,
+    choices:numChoices(ans),answer:String(ans),note:'おてほんで いくつ ふえたか(へったか)を たしかめよう。'};
+}
+
+/* ---------- じょうしき ---------- */
+const SEASONS={はる:[['🌸','さくら'],['🎏','こいのぼり'],['🌷','チューリップ'],['🐝','はち']],
+  なつ:[['🍉','すいか'],['🎆','はなび'],['🌻','ひまわり'],['🎐','ふうりん']],
+  あき:[['🍁','もみじ'],['🌰','くり'],['🎑','おつきみ'],['🍇','ぶどう']],
+  ふゆ:[['⛄','ゆきだるま'],['🧤','てぶくろ'],['🎍','かどまつ'],['🎄','クリスマス']]};
+function qSeason(){
+  const names=Object.keys(SEASONS);const s=one(names);const ans=one(SEASONS[s]);
+  const opts=[ans,...names.filter(n=>n!==s).map(n=>one(SEASONS[n]))];const t=`${s}に かんけいの ある ものは どれですか。`;
+  return {prompt:t,speak:t,choices:shuffle(opts).map(pChoice),answer:ans[0]};
+}
+const GROUPS=[{n:'くだもの',i:[['🍎','りんご'],['🍌','バナナ'],['🍇','ぶどう'],['🍓','いちご'],['🍑','もも'],['🍒','さくらんぼ']]},
+  {n:'のりもの',i:[['🚗','くるま'],['🚌','バス'],['🚲','じてんしゃ'],['🚂','きしゃ'],['✈️','ひこうき'],['🚑','きゅうきゅうしゃ']]},
+  {n:'きるもの',i:[['👕','シャツ'],['👖','ズボン'],['🧦','くつした'],['🧢','ぼうし'],['👗','ワンピース'],['🧥','コート']]},
+  {n:'ぶんぼうぐ',i:[['✏️','えんぴつ'],['📏','じょうぎ'],['✂️','はさみ'],['📕','ノート'],['🖍️','クレヨン']]},
+  {n:'どうぶつ',i:[['🐶','いぬ'],['🐱','ねこ'],['🐰','うさぎ'],['🐻','くま'],['🦁','ライオン'],['🐘','ぞう']]}];
+function qOdd(){
+  const [A,B]=pick(GROUPS,2);const out=one(B.i);
+  return {prompt:'なかまはずれは どれですか。',speak:'ひとつだけ なかまでは ない ものが あります。なかまはずれは どれですか。',
+    choices:shuffle([...pick(A.i,3),out]).map(pChoice),answer:out[0],note:`ほかの 3つは ${A.n}の なかまだよ。`};
+}
+const USE=[
+ {q:'あめの ひに つかう ものは どれですか。',a:['☂️','かさ'],o:[['🕶️','サングラス'],['🧤','てぶくろ'],['🎈','ふうせん']]},
+ {q:'はを みがく ときに つかう ものは どれですか。',a:['🪥','はブラシ'],o:[['🥄','スプーン'],['✂️','はさみ'],['🖍️','クレヨン']]},
+ {q:'かみを きる ときに つかう ものは どれですか。',a:['✂️','はさみ'],o:[['📏','じょうぎ'],['🥢','おはし'],['🔨','かなづち']]},
+ {q:'かじの とき、ひを けしに いく くるまは どれですか。',a:['🚒','しょうぼうしゃ'],o:[['🚑','きゅうきゅうしゃ'],['🚌','バス'],['🚜','トラクター']]},
+ {q:'びょうきや けがの ひとを はこぶ くるまは どれですか。',a:['🚑','きゅうきゅうしゃ'],o:[['🚒','しょうぼうしゃ'],['🚓','パトカー'],['🚚','トラック']]},
+ {q:'たまごから うまれる いきものは どれですか。',a:['🐔','にわとり'],o:[['🐶','いぬ'],['🐱','ねこ'],['🐰','うさぎ']]},
+ {q:'みずの なかで くらす いきものは どれですか。',a:['🐟','さかな'],o:[['🐿️','りす'],['🐻','くま'],['🐔','にわとり']]},
+ {q:'さむい ひに てに つける ものは どれですか。',a:['🧤','てぶくろ'],o:[['🧦','くつした'],['🧢','ぼうし'],['👓','めがね']]},
+ {q:'ごはんを たべる ときに つかう ものは どれですか。',a:['🥢','おはし'],o:[['🖍️','クレヨン'],['🔨','かなづち'],['📏','じょうぎ']]},
+ {q:'よるの そらに みえる ものは どれですか。',a:['🌙','つき'],o:[['🌈','にじ'],['☀️','たいよう'],['🌻','ひまわり']]},
+ {q:'あかちゃんが つかう ものは どれですか。',a:['🍼','ほにゅうびん'],o:[['🔨','かなづち'],['✂️','はさみ'],['🎸','ギター']]}];
+function qUse(){const u=one(USE);return {prompt:u.q,speak:u.q,choices:shuffle([u.a,...u.o]).map(pChoice),answer:u.a[0]};}
+
+/* ---------- ことば ---------- */
+const noN=WM.filter(w=>!w.k.endsWith('ん'));
+function qHead(){
+  const a=one(WM),c=a.k[0];const t=`「${c}」から はじまる ことばは どれですか。`;
+  return {prompt:t,speak:`${c}から はじまる ことばは どれですか。`,choices:shuffle([a,...pick(WM.filter(w=>base(w.k[0])!==base(c)),3)]).map(wChoice),answer:a.k};
+}
+function qTail(){
+  const a=one(noN),c=a.k.slice(-1);const t=`「${c}」で おわる ことばは どれですか。`;
+  return {prompt:t,speak:`${c}で おわる ことばは どれですか。`,choices:shuffle([a,...pick(WM.filter(w=>base(w.k.slice(-1))!==base(c)),3)]).map(wChoice),answer:a.k};
+}
+function qShiri(){
+  let b,c,cands,g=0;do{b=one(noN);c=b.k.slice(-1);cands=WM.filter(w=>w!==b&&w.k[0]===c);}while(!cands.length&&g++<200);
+  const a=one(cands);const o=pick(WM.filter(w=>w!==b&&base(w.k[0])!==base(c)),3);
+  return {prompt:'しりとりで つぎに つながる ものは どれですか。',speak:`${b.k}。しりとりで つぎに つながる ものは どれですか。`,
+    stim:`<div class="shiri"><figure><span class="emo">${b.e}</span><figcaption>${b.k}</figcaption></figure><b>→</b><span class="q emo">?</span></div>`,
+    choices:shuffle([a,...o]).map(wChoice),answer:a.k};
+}
+function qMora(d){
+  const n=d?one([3,4]):one([2,3]);const a=one(WM.filter(w=>len(w.k)===n));
+  const o=pick(WM.filter(w=>len(w.k)!==n&&Math.abs(len(w.k)-n)<=2),3);const t=`${n}つの おとで できて いる ことばは どれですか。`;
+  return {prompt:t,speak:t,choices:shuffle([a,...o]).map(wChoice),answer:a.k,note:'てを たたきながら「り・ん・ご」と いうと、おとの かずが わかるよ。'};
+}
+
+/* ---------- builder ---------- */
+const TYPES={num:[[qCount,qCompare,qAddSub],[qCount,qAddSub,qDivide]],
+  shape:[[qSame,qMirror,qSame],[qSame,qRotate,qMirror]],
+  mem:[[qPicMem,qPosMem,qStory],[qPicMem,qPosMem,qStory]],
+  logic:[[qSeries,qSeesaw,qSeries],[qSeries,qSeesaw,qBlackBox]],
+  life:[[qSeason,qOdd,qUse],[qSeason,qOdd,qUse]],
+  word:[[qHead,qMora,qShiri],[qShiri,qMora,qTail]]};
+const S={age:1,voice:true,mode:'test',cat:null,qs:[],i:0,ans:[],t0:0,timer:null,locked:false};
+const gen=(cat,fn)=>{const q=fn(S.age);q.cat=cat;return q;};
+const buildTest=()=>ORDER.flatMap(c=>TYPES[c][S.age].map(fn=>gen(c,fn)));
+function buildPractice(c){const t=TYPES[c][S.age];const out=[];for(let i=0;i<5;i++)out.push(gen(c,t[i%t.length]));return shuffle(out);}
+
+/* ---------- storage / speech ---------- */
+function loadPrefs(){try{const p=JSON.parse(localStorage.getItem('chie-prefs')||'{}');if(p.age===0||p.age===1)S.age=p.age;if(typeof p.voice==='boolean')S.voice=p.voice;}catch(e){}}
+function savePrefs(){try{localStorage.setItem('chie-prefs',JSON.stringify({age:S.age,voice:S.voice}));}catch(e){}}
+function loadHist(){try{const h=JSON.parse(localStorage.getItem('chie-history')||'[]');return Array.isArray(h)?h:[];}catch(e){return [];}}
+function saveHist(r){try{const h=loadHist();h.unshift(r);localStorage.setItem('chie-history',JSON.stringify(h.slice(0,10)));}catch(e){}}
+function speak(t){if(!S.voice||!t)return;try{const ss=window.speechSynthesis;ss.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='ja-JP';u.rate=.85;
+  const v=ss.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('ja'));if(v)u.voice=v;ss.speak(u);}catch(e){}}
+function hush(){try{window.speechSynthesis.cancel();}catch(e){}}
+function clearTimer(){if(S.timer){clearTimeout(S.timer);S.timer=null;}}
+
+/* ---------- views ---------- */
+const app=document.getElementById('app');
+function go(html){app.innerHTML=html;window.scrollTo(0,0);const f=app.querySelector('[data-focus]');if(f)f.focus({preventScroll:true});}
+const AGE=['年中','年長'];
+
+function viewHome(){
+  clearTimer();hush();const hist=loadHist();const title=[...'ちえのテスト'];
+  go(`<header class="hero">
+    <h1 class="masu" aria-label="ちえのテスト">${title.map((ch,i)=>`<span style="--cc:${CATS[ORDER[i]].color}" aria-hidden="true">${ch}</span>`).join('')}</h1>
+    <p class="lead">小学校受験のペーパーテストで出題される基本6分野を、お子さまと一緒に試せます。終わると分野ごとの力を判定し、おうちでの練習のヒントを表示します。</p>
+  </header>
+  <section class="panel">
+    <div class="setting"><span class="slabel">お子さまの学年</span>
+      <div class="seg" role="radiogroup" aria-label="学年">${['年中さん','年長さん'].map((t,i)=>`<button role="radio" aria-checked="${S.age===i}" data-act="age" data-v="${i}">${t}</button>`).join('')}</div></div>
+    <div class="setting"><span class="slabel">問題の読み上げ</span>
+      <button class="switch" role="switch" aria-checked="${S.voice}" data-act="voice"><i></i><span>${S.voice?'オン':'オフ'}</span></button></div>
+    <button class="primary" data-act="test">まとめて テストする<small>6分野 × 3もん(やく10ぷん)</small></button>
+  </section>
+  <section>
+    <h2>分野べつに れんしゅう</h2>
+    <div class="tiles">${ORDER.map(c=>`<button class="tile" style="--cc:${CATS[c].color}" data-act="prac" data-cat="${c}"><span class="ti" aria-hidden="true">${CATS[c].icon}</span><b>${CATS[c].name}</b><small>${CATS[c].ability}・5もん</small></button>`).join('')}</div>
+  </section>
+  ${hist.length?`<section><h2>これまでの きろく</h2><div class="histwrap"><table class="hist"><thead><tr><th>日付</th><th>学年</th><th>判定</th><th>正解</th>${ORDER.map(c=>`<th>${CATS[c].name}</th>`).join('')}</tr></thead><tbody>
+    ${hist.map(h=>`<tr><td>${h.date}</td><td>${AGE[h.age]||''}</td><td><b>${h.grade}</b></td><td>${h.correct}/${h.total}</td>${ORDER.map(c=>`<td>${h.cats&&h.cats[c]!=null?h.cats[c]+'%':'-'}</td>`).join('')}</tr>`).join('')}
+  </tbody></table></div></section>`:''}
+  <section class="note"><h2>おうちの方へ</h2><ul>
+    <li>お子さまが画面の絵をタップして答えます。読み上げがオフの時や聞き取りにくい時は、問題文を読んであげてください。</li>
+    <li>「まとめてテスト」は本番に近づけるため、答え合わせを最後にまとめて表示します。「れんしゅう」では1問ごとに正解がわかります。</li>
+    <li>問題は毎回ランダムに作られるので、何度でも挑戦できます。記録はこの端末のブラウザにだけ保存されます。</li>
+    <li>判定はこのサイトの問題に対する簡易的な目安です。実際の入試の合否や、お子さまの発達を判断するものではありません。</li>
+  </ul></section>`);
+}
+
+function qbar(q){const c=CATS[q.cat],n=S.qs.length;
+  return `<div class="qbar"><span class="chip" style="--cc:${c.color}">${c.icon} ${c.name}</span><div class="prog" aria-hidden="true"><i style="width:${S.i/n*100}%"></i></div><span class="count">${S.i+1} / ${n}</span><button class="icon" data-act="replay" aria-label="もういちど よみあげる">🔊</button><button class="icon" data-act="quit" aria-label="やめる">✕</button></div>`;}
+
+function viewQ(){
+  clearTimer();const q=S.qs[S.i];if(q.memo&&!q._seen)return viewMemo(q);S.locked=false;
+  go(`${qbar(q)}<article class="sheet" style="--cc:${CATS[q.cat].color}">
+    <p class="prompt">${q.prompt}</p>${q.stim?`<div class="stim">${q.stim}</div>`:''}
+    <div class="choices ${q.layout||''}" role="group" aria-label="こたえ">${q.choices.map((c,i)=>`<button class="choice" data-act="pick" data-i="${i}" aria-label="${i+1}ばん">${c.html}${c.label?`<span class="lab">${c.label}</span>`:''}</button>`).join('')}</div>
+    <div class="fb" aria-live="polite"></div></article>`);
+  S.t0=performance.now();speak(q.speak);
+}
+function viewMemo(q){
+  const m=q.memo;
+  go(`${qbar(q)}<article class="sheet" style="--cc:${CATS[q.cat].color}">
+    <p class="prompt">${m.manual?'おはなしを よく ききましょう。':'よく みて おぼえましょう。'}</p><div class="stim">${m.html}</div>
+    ${m.manual?`<p class="hint">読み上げがオフの場合は、保護者の方が読んであげてください。聞き終わったらボタンを押すと、お話が隠れて質問が出ます。</p><button class="primary small" data-act="memodone" data-focus>きいたよ!しつもんへ</button>`
+      :`<div class="timer" style="--sec:${m.seconds}s" role="progressbar" aria-label="のこり じかん"><i></i></div>`}
+  </article>`);
+  speak(m.speak);
+  if(!m.manual)S.timer=setTimeout(()=>{q._seen=true;viewQ();},m.seconds*1000);
+}
+function onPick(i){
+  if(S.locked)return;S.locked=true;const q=S.qs[S.i];const ok=q.choices[i].value===q.answer;
+  S.ans.push({q,pick:i,ok,ms:performance.now()-S.t0});
+  const btns=[...app.querySelectorAll('.choice')];btns[i].classList.add('picked');btns.forEach(b=>b.disabled=true);
+  if(S.mode==='test'){setTimeout(next,380);return;}
+  app.querySelector('.choices').classList.add('revealed');
+  btns.forEach((b,j)=>{if(q.choices[j].value===q.answer)b.classList.add('is-correct');else if(j===i)b.classList.add('is-wrong');});
+  if(q.layout==='grid9')btns[+q.answer].innerHTML=`<span class="emo" style="font-size:40px">${q.target}</span>`;
+  const last=S.i+1>=S.qs.length;
+  app.querySelector('.fb').innerHTML=`<p class="${ok?'ok':'ng'}">${ok?'⭕ せいかい!':'❌ ざんねん。みどりの わくが こたえだよ。'}</p>${q.note?`<p class="hint">${q.note}</p>`:''}<button class="primary small" data-act="next">${last?'けっかを みる':'つぎの もんだい'}</button>`;
+  app.querySelector('.fb [data-act=next]').focus();speak(ok?'せいかい!':'ざんねん。');
+}
+function next(){S.i++;if(S.i>=S.qs.length)viewResult();else viewQ();}
+
+/* ---------- result ---------- */
+const ADVICE={
+ num:{good:'10前後までの数を正確に数え、多い・少ないの比較もできています。次は「いくつ違う」「同じ数ずつ分ける」問題に進みましょう。',
+   mid:'数えることはおおむねできています。数え漏れや重複を防ぐため、数えたものに小さく印をつける習慣をつけると安定します。',
+   low:'おはじきやおやつを使い、指で押さえながら1つずつ数える練習から。「お皿を人数分並べて」などのお手伝いも効果的です。'},
+ shape:{good:'形を正確に見比べられています。回転図形や点図形など、頭の中で形を動かす問題にも挑戦してみましょう。',
+   mid:'見本との違いを探す力はついてきています。上の段から1マスずつ指でたどって見比べる練習を。',
+   low:'積み木やパズル、タングラムなど、実際に手で形を動かす遊びを増やしましょう。紙を鏡に映したり回したりして確かめるのもおすすめです。'},
+ mem:{good:'見たこと・聞いたことをよく覚えられています。お話を長くしたり、覚える数を増やしたりしてみましょう。',
+   mid:'ある程度は覚えられています。絵本の読み聞かせの後に「誰が出てきた?」「何を買った?」と質問する習慣を。',
+   low:'まずは短いお話や少ない数の絵から。神経衰弱(カード合わせ)や、買い物リストを一緒に覚えるゲームがおすすめです。'},
+ logic:{good:'きまりを見つけて考える力が育っています。条件の多い推理問題(観覧車・ブラックボックスなど)にも挑戦できます。',
+   mid:'きまりに気づける場面が増えています。「どうしてそう思った?」と理由を言葉にしてもらうと思考が整理されます。',
+   low:'ビーズを「あか・あお・あか・あお」と並べる遊びや、実物で重さ比べをする体験から始めましょう。'},
+ life:{good:'季節や生活の常識がよく身についています。行事・植物・生き物の育ち方などへ幅を広げていきましょう。',
+   mid:'身近なことはよくわかっています。図鑑を眺めたり、季節の行事を一緒に体験して話題にしたりすると定着します。',
+   low:'散歩や料理、季節の行事など実体験を増やし、「これは何に使う?」「いつの季節?」と声をかけてみましょう。'},
+ word:{good:'言葉の音への意識が育っています。しりとりを長く続ける、同じ音で始まる言葉集めなど発展的な遊びを。',
+   mid:'言葉の音はおおむね分かっています。手をたたきながら言葉を区切る「音数あそび」で確実にしましょう。',
+   low:'しりとりや「『あ』のつくもの探し」など、遊びの中で言葉の音に注目する時間を作りましょう。'}};
+function grade(p){
+  if(p>=85)return {k:'A',kid:'とても よく できました!',c:'var(--c-logic)',msg:'ペーパーテストの基本はしっかり身についています。取りこぼしを防ぎつつ、応用問題や時間を意識した練習へ進みましょう。'};
+  if(p>=67)return {k:'B',kid:'よく できました!',c:'var(--c-shape)',msg:'基礎はおおむね定着しています。正答率の低い分野を中心に、毎日少しずつ取り組むと安定します。'};
+  if(p>=45)return {k:'C',kid:'もう すこし!',c:'var(--c-num)',msg:'分野によって得意・不得意の差があります。下の「伸ばしたい分野」から、遊びの中で取り組める練習を始めてみましょう。'};
+  return {k:'D',kid:'これから のびるよ!',c:'var(--c-life)',msg:'まだ慣れていない問題が多いようです。まずは問題の形式に慣れることから始め、具体物を使った体験的な学びを増やしましょう。'};
+}
+function radar(by){
+  const cx=160,cy=150,r=104;const pt=(i,f)=>{const a=(-90+i*60)*Math.PI/180;return [cx+Math.cos(a)*r*f,cy+Math.sin(a)*r*f].map(v=>v.toFixed(1));};
+  let s=`<svg class="radar" viewBox="0 0 320 300" role="img" aria-label="分野ごとの正答率">`;
+  [1/3,2/3,1].forEach(f=>{s+=`<polygon points="${ORDER.map((_,i)=>pt(i,f).join(',')).join(' ')}" style="fill:none;stroke:var(--line)" stroke-width="1.5"/>`;});
+  ORDER.forEach((_,i)=>{const [x,y]=pt(i,1);s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" style="stroke:var(--line)"/>`;});
+  const vals=ORDER.map(c=>Math.max(by[c].c/by[c].n,.04));
+  s+=`<polygon points="${vals.map((v,i)=>pt(i,v).join(',')).join(' ')}" style="fill:var(--ink);fill-opacity:.12;stroke:var(--ink)" stroke-width="2.5" stroke-linejoin="round"/>`;
+  vals.forEach((v,i)=>{const [x,y]=pt(i,v);s+=`<circle cx="${x}" cy="${y}" r="7" style="fill:${CATS[ORDER[i]].color};stroke:var(--sheet)" stroke-width="2"/>`;});
+  ORDER.forEach((c,i)=>{const [x,y]=pt(i,1.24);s+=`<text x="${x}" y="${(+y+5).toFixed(1)}" text-anchor="middle" font-size="15" font-weight="700" style="fill:${CATS[c].color}">${CATS[c].name}</text>`;});
+  return s+'</svg>';
+}
+const fmtDate=d=>`${d.getMonth()+1}/${d.getDate()}`;
+function viewResult(){
+  clearTimer();hush();
+  const by={};for(const a of S.ans){const b=by[a.q.cat]||(by[a.q.cat]={c:0,n:0});b.n++;if(a.ok)b.c++;}
+  const total=S.ans.length,correct=S.ans.filter(a=>a.ok).length,pct=Math.round(correct/total*100),g=grade(pct);
+  const cats=S.mode==='test'?ORDER:[S.cat];const p=c=>Math.round(by[c].c/by[c].n*100);
+  let prev='';
+  if(S.mode==='test'){
+    const h=loadHist().find(x=>x.age===S.age);
+    if(h){const d=correct-h.correct;prev=`<p class="prev">前回(${h.date})は ${h.correct}/${h.total}もん。${d>0?`${d}もん ふえたね!`:d<0?`前回より ${-d}もん すくなかったよ。`:'前回と おなじ だったよ。'}</p>`;}
+    saveHist({date:fmtDate(new Date()),age:S.age,correct,total,grade:g.k,cats:Object.fromEntries(ORDER.map(c=>[c,p(c)]))});
+  }
+  const rows=cats.map(c=>{const v=p(c);const lv=v>=80?'good':v>=50?'mid':'low';
+    const mark={good:'◎ よくできている',mid:'○ あと少し',low:'△ 重点的に練習'}[lv];
+    return `<div class="crow" style="--cc:${CATS[c].color}"><div class="chead"><span>${CATS[c].icon} ${CATS[c].ability}(${CATS[c].name})</span><span>${by[c].c}/${by[c].n}</span></div><div class="bar"><i style="width:${v}%"></i></div><p><span class="lv ${lv}">${mark}</span>${ADVICE[c][lv]}</p></div>`;}).join('');
+  let summary='';
+  if(S.mode==='test'){const vs=ORDER.map(p);const mx=Math.max(...vs),mn=Math.min(...vs);
+    const best=ORDER.filter(c=>p(c)===mx).map(c=>CATS[c].ability).join('・');const weak=mn<100?ORDER.filter(c=>p(c)===mn).map(c=>CATS[c].ability).join('・'):'';
+    summary=`<p class="summary">得意な分野:${best}${weak&&mx!==mn?`<br>伸ばしたい分野:${weak}`:''}</p>`;}
+  const avg=Math.round(S.ans.reduce((s,a)=>s+a.ms,0)/total/1000);
+  const wrong=S.ans.filter(a=>!a.ok);
+  const review=wrong.length?`<h2>まちがえた もんだい</h2><ul class="review">${wrong.map(a=>{const q=a.q;const ci=q.choices.findIndex(c=>c.value===q.answer);
+      const cell=c=>`${c.html}${c.label?`<small>${c.label}</small>`:''}`;
+      const corr=q.answerHTML||cell(q.choices[ci]);const mine=q.layout==='grid9'?`<span class="num">${a.pick+1}</span><small>ばんめの マス</small>`:cell(q.choices[a.pick]);
+      return `<li><span class="chip" style="--cc:${CATS[q.cat].color}">${CATS[q.cat].name}</span><p class="rp">${q.prompt}</p>${q.stim?`<div class="stim">${q.stim}</div>`:''}<div class="ans"><div><small>こたえ</small>${corr}</div><div><small>えらんだ もの</small>${mine}</div></div></li>`;}).join('')}</ul>`
+    :`<p class="summary">ぜんもん せいかい!すばらしい!</p>`;
+  go(`<header class="rhead"><div class="gbadge" style="--gc:${g.c}">${g.k}<small>判定</small></div>
+      <div><p class="kid">${g.kid}</p><p class="score">${S.mode==='test'?'まとめてテスト':CATS[S.cat].name+'の れんしゅう'}:${correct} / ${total}もん せいかい(${pct}%)</p>${prev}</div></header>
+    <p class="pmsg">${g.msg}</p>
+    <section class="rgrid">${S.mode==='test'?radar(by):''}<div>${rows}</div></section>
+    ${summary}
+    <p class="hint">1もん あたりの へいきん じかん:${avg}びょう${avg>30?'。慣れてきたら、本番を意識して少しずつテンポよく答える練習もしてみましょう。':''}</p>
+    ${review}
+    <div class="actions"><button class="primary small" data-act="retry">もういちど ちょうせん</button><button class="ghost" data-act="home">はじめに もどる</button></div>
+    <p class="disclaimer">この判定は、このサイトで出題した基本問題の正答率にもとづく簡易的な目安です。志望校の出題傾向や実際の合否、お子さまの発達を判断するものではありません。結果はおうちでの練習の参考としてお使いください。</p>`);
+  speak(g.kid);
+}
+
+/* ---------- events ---------- */
+let quitArm=0;
+app.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act;
+  if(act==='age'){S.age=+b.dataset.v;savePrefs();viewHome();}
+  else if(act==='voice'){S.voice=!S.voice;savePrefs();if(!S.voice)hush();viewHome();}
+  else if(act==='test'){S.mode='test';S.cat=null;S.qs=buildTest();S.i=0;S.ans=[];viewQ();}
+  else if(act==='prac'){S.mode='prac';S.cat=b.dataset.cat;S.qs=buildPractice(S.cat);S.i=0;S.ans=[];viewQ();}
+  else if(act==='pick')onPick(+b.dataset.i);
+  else if(act==='next')next();
+  else if(act==='memodone'){hush();S.qs[S.i]._seen=true;viewQ();}
+  else if(act==='replay'){const q=S.qs[S.i];if(!q)return;const wasOff=!S.voice;S.voice=true;speak(q.memo&&!q._seen?q.memo.speak:q.speak);S.voice=!wasOff;}
+  else if(act==='quit'){if(Date.now()-quitArm<3000){quitArm=0;viewHome();return;}quitArm=Date.now();b.textContent='やめる?';b.classList.add('armed');
+    setTimeout(()=>{if(b.isConnected){b.textContent='✕';b.classList.remove('armed');}},3000);}
+  else if(act==='retry'){if(S.mode==='test'){S.qs=buildTest();}else{S.qs=buildPractice(S.cat);}S.i=0;S.ans=[];viewQ();}
+  else if(act==='home')viewHome();
+});
+try{window.speechSynthesis&&window.speechSynthesis.getVoices();}catch(e){}
+loadPrefs();viewHome();
+})();
+</script>
+</body>
+</html>
